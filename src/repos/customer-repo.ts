@@ -9,7 +9,7 @@ import {
     ResourceNotFoundError, 
     ResourcePersistenceError
 } from '../errors/errors';
-import validator from '../util/validator';
+
 
 export class CustomerRepo implements CrudRepo<Customer> {
 
@@ -58,7 +58,7 @@ export class CustomerRepo implements CrudRepo<Customer> {
                     return;
                 }
 
-                resolve(customer);
+                return resolve(customer);
             }, 250 );
 
         });
