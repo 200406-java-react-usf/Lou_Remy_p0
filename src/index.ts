@@ -1,6 +1,6 @@
 const dotenv = require('dotenv');
 const express = require('express');
-const pg = require('pg')
+
 import { CustomerRepo }  from './repos/customer-repo'
 import { Pool } from 'pg';
 

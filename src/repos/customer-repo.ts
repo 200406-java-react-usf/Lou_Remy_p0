@@ -1,7 +1,7 @@
 import data from '../data/customer-data';
-import { Customer } from '../models/customer'
-import { CrudRepo } from './crud-repo'
-import Validator from '../util/validator'
+import { Customer } from '../models/customer';
+import { CrudRepo } from './crud-repo';
+import Validator from '../util/validator';
 import {  
     AuthenticationError, 
     BadRequestError, 
@@ -10,6 +10,7 @@ import {
     ResourcePersistenceError
 } from '../errors/errors';
 
+import { PoolClient } from 'pg';
 
 export class CustomerRepo implements CrudRepo<Customer> {
 
