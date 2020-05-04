@@ -1,9 +1,20 @@
 const dotenv = require('dotenv');
 const express = require('express');
+const pg = require('pg')
 import { CustomerRepo }  from './repos/customer-repo'
+import { Pool } from 'pg';
 
 
 dotenv.config();
+export const coonnectionPool: Pool = new Pool({
+    host: process.env['DB_HOST'],
+    port: +process.env['DB_PORT'],
+    database: process.env['DB_NAME'],
+    user: process.env['DB_USERNAME'],
+    password: process.env['DB_PASSWORD'],
+    max: 5
+})
+
 
 const app = express();
 app.listen(8080, ()=> {
