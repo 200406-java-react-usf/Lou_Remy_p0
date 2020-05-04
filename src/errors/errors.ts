@@ -1,8 +1,9 @@
 class AppError {
+    statuscode: number;
     message: string;
     reason: string;
 
-    constructor(rsn?:string){
+    constructor(statuscode: number, rsn?:string){
         
         this.message = 'An unexpected Error occurred'
         rsn? (this.reason = rsn): this.reason = 'Unspecified Reason'
@@ -15,7 +16,7 @@ class AppError {
 
 class ResourceNotFoundError extends AppError{
     constructor(reason?: string){
-        super(reason);
+        super(404, reason);
         super.setMessage('No resource found using this criteria')
     }
 }
@@ -23,7 +24,7 @@ class ResourceNotFoundError extends AppError{
 class ResourcePersistenceError extends AppError{
     
     constructor(reason?: string) {
-        super(reason);
+        super(409, reason);
         super.setMessage('No resource found using provided criteria')
     }
 
@@ -32,7 +33,7 @@ class ResourcePersistenceError extends AppError{
 class BadRequestError extends AppError {
 
     constructor(reason?: string){
-        super(reason);
+        super(400, reason);
         super.setMessage('invalid parameters provided')
     }
 }
@@ -40,15 +41,22 @@ class BadRequestError extends AppError {
 class AuthenticationError extends AppError {
 
     constructor(reason?: string){
-        super(reason);
+        super(401, reason);
         super.setMessage('Authentication failed')
     }
 }
 
 class NotImplemented extends AppError {
     constructor(reason?: string) {
-        super(reason);
+        super(403, reason);
         super.setMessage('no implementation yet')
+    }
+}
+
+class InternalServerError extends AppError {
+    constructor(reason?: string){
+        super(500, reason);
+        super.setMessage('Internal server error')
     }
 }
 
@@ -57,6 +65,7 @@ export {
     AuthenticationError,
     BadRequestError,
     ResourcePersistenceError,
-    ResourceNotFoundError
+    ResourceNotFoundError,
+    InternalServerError
 }
 

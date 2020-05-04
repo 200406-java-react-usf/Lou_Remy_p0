@@ -6,7 +6,7 @@ import { Pool } from 'pg';
 
 
 dotenv.config();
-export const coonnectionPool: Pool = new Pool({
+export const connectionPool: Pool = new Pool({
     host: process.env['DB_HOST'],
     port: +process.env['DB_PORT'],
     database: process.env['DB_NAME'],

@@ -7,43 +7,41 @@ import {
     BadRequestError, 
     //NotImplementedError, 
     ResourceNotFoundError, 
-    ResourcePersistenceError
+    ResourcePersistenceError,
+    InternalServerError
 } from '../errors/errors';
 
 import { PoolClient } from 'pg';
-
+import { connectionPool } from '..';
+import { customer_rsmap } from '../util/rsmap'
 export class CustomerRepo implements CrudRepo<Customer> {
 
-    private static instance: CustomerRepo;
+    baseQuery = `
+    select
+        c.id
+        c.firstname
+        c.lastname
+        c.email
+    from Customers c
+    `
+   
 
-    private constructor(){}
-    
-    static getInstance(){
-        return !CustomerRepo.instance ? CustomerRepo.instance = new CustomerRepo() : CustomerRepo.instance;
+    async getall(): Promise<Customer[]>{
+        let client: PoolClient;
 
+
+        try{
+            client = await connectionPool.connect();
+            let sql =`${this.baseQuery}`;
+            let rs = await client.query(sql);
+            return rs.rows.map(customer_rsmap);
+        } catch (e){
+            throw new InternalServerError();
+        } finally {
+            client && client.release();
+        }
+        
     }
-
-    getall(): Promise<Customer[]>{
-        return new Promise<Customer[]>((resolve,reject)=>{
-            setTimeout(()=>{
-                let customers = []
-
-                for( let customer of data){
-                    customers.push({...customer})
-                }
-                
-                if (customers.length == 0){
-                    reject(new ResourceNotFoundError())
-                    return;
-                }
-
-                resolve(customers);
-
-
-            },250);
-        });
-    }
-
     getById(id: number): Promise<Customer>{
         return new Promise<Customer>((resolve, reject)=>{
 
