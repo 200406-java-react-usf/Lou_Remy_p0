@@ -18,11 +18,12 @@ export class CustomerRepo implements CrudRepo<Customer> {
 
     baseQuery = `
     select
-        c.id
-        c.firstname
-        c.lastname
-        c.email
-    from customers c
+        id,
+        firstname,
+        lastname,
+        email
+
+    from "Customers" 
     `
    
 
