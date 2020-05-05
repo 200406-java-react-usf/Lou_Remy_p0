@@ -1,11 +1,12 @@
 const dotenv = require('dotenv');
 const express = require('express');
 
-import { CustomerRepo }  from './repos/customer-repo'
+import { CustRouter }  from './routers/customer-router'
 import { Pool } from 'pg';
 
 
 dotenv.config();
+
 export const connectionPool: Pool = new Pool({
     host: process.env['DB_HOST'],
     port: +process.env['DB_PORT'],
@@ -17,21 +18,17 @@ export const connectionPool: Pool = new Pool({
 
 
 const app = express();
+app.use('/',express.json())
+app.use('/customers', CustRouter)
+
 app.listen(8080, ()=> {
     console.log('running and listening on port 8080')
 });
 
-app.use(express.json())
 
 
-const custRepo = CustomerRepo.getInstance();
 
-app.get('/customers', async (req, resp)=>{
-    try{
-        let payload = await custRepo.getall();
-        resp.status(200).json(payload)
-    }catch(e){
-        resp.status(404).json(e)
-    }
-})
+
+
+
 

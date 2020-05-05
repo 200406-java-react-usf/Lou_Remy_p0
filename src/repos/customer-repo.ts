@@ -3,11 +3,11 @@ import { Customer } from '../models/customer';
 import { CrudRepo } from './crud-repo';
 import Validator from '../util/validator';
 import {  
-    AuthenticationError, 
+    //AuthenticationError, 
     BadRequestError, 
     //NotImplementedError, 
     ResourceNotFoundError, 
-    ResourcePersistenceError,
+    //ResourcePersistenceError,
     InternalServerError
 } from '../errors/errors';
 
@@ -22,7 +22,7 @@ export class CustomerRepo implements CrudRepo<Customer> {
         c.firstname
         c.lastname
         c.email
-    from Customers c
+    from customers c
     `
    
 
