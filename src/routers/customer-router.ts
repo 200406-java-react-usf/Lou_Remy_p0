@@ -25,3 +25,9 @@ CustRouter.get('', async( req, resp)=>{
     }
 })
 
+// CustRouter.get('/:key/:value', async (req,resp)=>{
+//  const key = req.params.id;
+//  try{
+//      let payload = await customerService.getCustbyUniqueKey
+//  }
+// })

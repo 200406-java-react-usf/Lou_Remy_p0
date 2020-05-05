@@ -2,15 +2,15 @@ import { Bike } from "./bikes";
 
 export class Customer{
     id:number;
-    name: string;
-    email:string;
-    owns: Bike;
+    firstname: string;
+    lastname:string;
+    email: string;
 
 
-    constructor(id,n,email,owns){
+    constructor(id,fn,ln,email){
         this.id =id
-        this.name=n
-        this.owns = owns
+        this.firstname= fn
+        this.lastname = ln
         this.email = email
     }
 }
