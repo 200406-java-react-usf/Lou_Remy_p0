@@ -1,14 +1,15 @@
 export class Transactions{
-    custid:number;
+    txid:number;
     cost:number;
     type:string;
-    //bike:Bike;
-
-    constructor(id,cost,typ){
-        this.custid = id
+    custid:number;
+    //serial:number
+    constructor(tid,id,cost,typ,s){
+        this.txid = id
         this.cost = cost
         this.type = typ
-        //this.bike = b
+        this.custid = id
+        //this.serial = s
     }
     
 }
