@@ -7,8 +7,8 @@ import { PoolClient } from 'pg';
 import { connectionPool } from '..';
 import {tx_rsmap} from '../util/rsmap';
 
-
-let baseQuery = `
+export class TransactionRepo implements CrudRepo<Transactions> {
+baseQuery = `
 select 
 "TransactionId",
 "Cost",
@@ -16,7 +16,7 @@ select
 "CustomerId"
  from "Transactions"`
 
-export async function getAll(): Promise<Transactions[]> {
+ async getall(): Promise<Transactions[]> {
 
     let client: PoolClient;
 
@@ -30,4 +30,5 @@ export async function getAll(): Promise<Transactions[]> {
     } finally {
         client&& client.release()
     }
+}
 }
