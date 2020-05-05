@@ -21,5 +21,20 @@ export class CustomerService {
 
         return customers
     }
+
+    async getCustbyUniqueKey(queryObj:any): Promise<Customer> {
+
+        try {
+            let queryKeys = Object.keys(queryObj)
+            let key = queryKeys[0];
+            let val = queryObj[key]
+            let customer = await this.custRepo.getCustByUniqueKey(key, val)
+            return customer
+        }
+        catch(e){
+            throw e
+        }
+    }
+
 }
 

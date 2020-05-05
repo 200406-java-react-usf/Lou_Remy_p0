@@ -12,7 +12,7 @@ import {
 } from '../errors/errors';
 
 import { PoolClient } from 'pg';
-import { connectionPool } from '..';
+import { connectionPool } from '../index';
 import { customer_rsmap } from '../util/rsmap'
 export class CustomerRepo implements CrudRepo<Customer> {
 
@@ -42,47 +42,25 @@ export class CustomerRepo implements CrudRepo<Customer> {
         }
         
     }
-    getById(id: number): Promise<Customer>{
-        return new Promise<Customer>((resolve, reject)=>{
-
-            if(!Validator.isValidId(id)){
-                reject( new BadRequestError())
-            }
-
-            setTimeout(()=>{
-                const customer = {...data.find(customer =>customer.id ===id)}
-
-                if(Object.keys(customer).length=== 0){
-                    reject(new ResourceNotFoundError());
-                    return;
-                }
-
-                return resolve(customer);
-            }, 250 );
-
-        });
-    }
-
-    getCustomerByName(name: string): Promise<Customer> {
-        return new Promise<Customer>((resolve,reject)=>{
-            if (!Validator.isValidStings(name)){
-                reject( new BadRequestError());
-                return;
-            }
-            setTimeout(() => {
+    
+    async getCustByUniqueKey(key: string, val: string): Promise<Customer> {
+        let client: PoolClient;
         
-                const customer = {...data.filter(customer => customer.name === name)[0]};
-                
-                if (Object.keys(customer).length == 0) {
-                    reject(new ResourceNotFoundError());
-                    return;
-                }
+        try {
+            client = await connectionPool.connect();
+            let sql = `${this.baseQuery} where c.${key} =$1`;
+            let rs = await client.query(sql,[val]);
+            return customer_rsmap(rs.rows[0])
+        }catch(e){
+            throw new InternalServerError();
+        }finally{
+            client&&client.release()
+        }
         
-                resolve(customer);
+        
 
-        },250)
-    })
-
+        
+    
 }
 
 }

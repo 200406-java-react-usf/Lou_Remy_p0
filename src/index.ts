@@ -8,7 +8,7 @@ import { Pool } from 'pg';
 dotenv.config();
 
 export const connectionPool: Pool = new Pool({
-    host: process.env['DB_HOST'],
+    host: 'java-react-200406.c74fcz0zpcmh.us-east-2.rds.amazonaws.com',
     port: +process.env['DB_PORT'],
     database: process.env['DB_NAME'],
     user: process.env['DB_USERNAME'],

@@ -15,7 +15,8 @@ CustRouter.get('', async( req, resp)=>{
     try{
         let reqURL = url.parse(req.url, true)
         if(!isEmptyObject<ParsedUrlQuery>(reqURL.query)){
-            let payload = await customerService
+            let payload = await customerService.getCustbyUniqueKey({...reqURL.query})
+            resp.status(200).json(payload)
         }
         let payload = await customerService.getAllCustomers();
         resp.status(200).json(payload)
