@@ -22,7 +22,7 @@ select
 
     try {
         client = await connectionPool.connect()
-        let sql = `${baseQuery}`;
+        let sql = `${this.baseQuery}`;
         let rs = await client.query(sql)
         return rs.rows.map(tx_rsmap)
     }catch(e){

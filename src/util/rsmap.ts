@@ -1,6 +1,7 @@
 import { CustomerSchema } from './schemas'
 import { Customer } from '../models/customer'
 import { Transactions } from '../models/transactions';
+import{ TransactionSchema } from './schemas'
 
 
 
