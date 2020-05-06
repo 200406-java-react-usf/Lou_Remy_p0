@@ -32,22 +32,41 @@ export class BikeRepo implements CrudRepo<Bike> {
 
     }
 
-    async getByUniqueKey(key: string, val: string): Promise<Bike>{
+    async getByUniqueKey(key: string, val: string): Promise<Bike[]>{
         let client: PoolClient;
     
     try {
-        client = await connectionPool.connect();
-        let sql = `${this.baseQuery} where b.${key} =$1`;
-        let rs = await client.query(sql,[val]);
-        return bike_rsmap(rs.rows[0])
-    }catch(e){
-        throw new InternalServerError();
-    }finally{
-        client&&client.release()
+            client = await connectionPool.connect();
+            let sql = `${this.baseQuery} where "${key}" = $1`;
+            let rs = await client.query(sql,[val]);
+            return rs.rows.map(bike_rsmap)
+        }catch(e){
+            throw new InternalServerError()
+        }finally{
+            client&&client.release()
+        }
     }
-    
+
+    async save(newBike: Bike): Promise<Bike>{
+        let client: PoolClient;
+
+        try {
+            client = await connectionPool.connect();
+
+            let sql = `
+                insert into "Bikes" ("SerialNumber", "Brand", "Model", "Price") 
+                values ($1, $2, $3, $4) returning id
+            `
+            return newBike
+        }catch (e) {
+            console.log(e);
+            throw new InternalServerError();
+        } finally {
+            client && client.release();
+        }
+    }
 
 }
-}   
+   
 
 

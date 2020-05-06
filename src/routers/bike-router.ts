@@ -23,6 +23,7 @@ BikeRouter.get('', async(req, resp)=> {
     }
 })
 
+
 BikeRouter.get('/:x/:val', async (req,resp)=>{
     const id = req.params.x;
     const val = req.params.val;
@@ -34,3 +35,16 @@ BikeRouter.get('/:x/:val', async (req,resp)=>{
      }catch(e){
             resp.status(404).json(e)}
     })
+
+
+    
+BikeRouter.post('', async( req, resp)=>{
+    console.log(req.body)
+
+    try{
+        let newCust = await bikeService.addBike(req.body)
+        return resp.status(201).json(newCust)
+    }catch(e){
+        return resp.status(404).json(e)
+    }
+})

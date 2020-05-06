@@ -1,6 +1,12 @@
 import { Transactions } from '../models/transactions'
 import { TransactionRepo } from '../repos/transaction-repo'
-import { ResourceNotFoundError } from '../errors/errors';
+import  { isValidObject }  from '../util/validator'
+import {
+    ResourceNotFoundError,
+    BadRequestError,
+    ResourcePersistenceError,
+    
+} from '../errors/errors'
 
 
 export class TransactionService {
@@ -18,7 +24,7 @@ export class TransactionService {
 
     }
 
-    async getTransByUniqueKey(queryObj:any): Promise<Transactions> {
+    async getTransByUniqueKey(queryObj:any): Promise<Transactions[]> {
         try {
             let queryKeys = Object.keys(queryObj)
             let key = queryKeys[0];
@@ -28,5 +34,23 @@ export class TransactionService {
         }
         catch(e){
             throw e
+        }
+
     }
-}}
+
+    async addTransaction(newTx: Transactions): Promise<Transactions>{
+
+        try{
+            if(!isValidObject(newTx)){
+                throw new BadRequestError('Invalid property values found in provided transaction.');
+            }
+        }catch(e){
+            e
+        }
+
+
+        let persistedtransaction = await this.txRepo.save(newTx)
+        return persistedtransaction
+    }
+
+}

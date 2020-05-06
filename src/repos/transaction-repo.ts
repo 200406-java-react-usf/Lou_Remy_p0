@@ -8,13 +8,13 @@ import { connectionPool } from '..';
 import {tx_rsmap} from '../util/rsmap';
 
 export class TransactionRepo implements CrudRepo<Transactions> {
-baseQuery = `
-select 
-"TransactionId",
-"Cost",
-"Type",
-"CustomerId"
- from "Transactions"`
+    baseQuery = `
+    select 
+    t."TransactionId",
+    t."Cost",
+    t."Type",
+    t."CustomerId"
+    from "Transactions" t`
 
  async getall(): Promise<Transactions[]> {
 
@@ -32,14 +32,14 @@ select
     }
 }
 
-async getTransByUniqueKey(key: string, val: string): Promise<Transactions> {
+async getTransByUniqueKey(key: string, val: string): Promise<Transactions[]> {
     let client: PoolClient;
     
     try {
         client = await connectionPool.connect();
-        let sql = `${this.baseQuery} where c.${key} =$1`;
+        let sql = `${this.baseQuery} where "${key}" =$1`;
         let rs = await client.query(sql,[val]);
-        return tx_rsmap(rs.rows[0])
+        return rs.rows.map(tx_rsmap)
     }catch(e){
         throw new InternalServerError();
     }finally{
@@ -47,4 +47,29 @@ async getTransByUniqueKey(key: string, val: string): Promise<Transactions> {
     }
     
 
-}}
+}
+
+async save(newTx:Transactions): Promise<Transactions>{
+
+    let client: PoolClient;
+
+    try {
+        client = await connectionPool.connect();
+
+        let sql = `
+            insert into "Transactions" ("TransactionId", "Cost", "Type", "CustomerId") 
+            values ($1, $2, $3, $4) returning id
+        `
+        return newTx
+    }catch (e) {
+        console.log(e);
+        throw new InternalServerError();
+    } finally {
+        client && client.release();
+    }
+
+}
+
+
+
+}

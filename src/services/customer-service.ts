@@ -41,7 +41,7 @@ export class CustomerService {
     async addCustomer(newCust: Customer): Promise<Customer>{
 
         try{
-            if(!isValidObject(newCust, 'id')){
+            if(!isValidObject(newCust)){
                 throw new BadRequestError('Invalid property values found in provided user.');
             }
         }catch(e){
