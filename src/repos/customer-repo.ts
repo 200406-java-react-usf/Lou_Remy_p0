@@ -29,7 +29,7 @@ export class CustomerRepo implements CrudRepo<Customer> {
     from "Customers" c
     `
    
-//returns all customers
+/*returns all customers*/
     async getall(): Promise<Customer[]>{
         let client: PoolClient;
 
@@ -48,7 +48,7 @@ export class CustomerRepo implements CrudRepo<Customer> {
     }
     
 
-    //gets the things by typing in URL /key/value
+    /*gets the things by typing in URL /key/value*/
     async getCustByUniqueKey(key: string, val: string): Promise<Customer> {
         let client: PoolClient;
         
@@ -63,7 +63,7 @@ export class CustomerRepo implements CrudRepo<Customer> {
         }finally{
             client&&client.release()
         }}
-        //adds  a new Customer to db
+        /*adds  a new Customer to db*/
     async save(newCust:Customer): Promise<Customer>{
 
         let client: PoolClient;
