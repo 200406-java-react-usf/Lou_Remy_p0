@@ -25,10 +25,24 @@ CustRouter.get('', async( req, resp)=>{
     }
 })
 
-CustRouter.get('/:key/:value', async (req,resp)=>{
- const key = req.params.id;
- try{
-     let payload = await customerService.getCustbyUniqueKey(key)
- }catch(e){
-        resp.status(404).json(e)}
+
+CustRouter.post('', async( req, resp)=>{
+    console.log(req.body)
+
+    try{
+        let newCust = await customerService.addCustomer(req.body)
+        return resp.status(201).json(newCust)
+    }catch(e){
+        return resp.status(404).json(e)
+    }
 })
+
+// CustRouter.get('/:key/:value', async (req,resp)=>{
+//  const key = req.params.;
+//  const value = req.params
+//  try{
+//      let payload = await customerService.getCustbyUniqueKey(key)
+
+//  }catch(e){
+//         resp.status(404).json(e)}
+// })

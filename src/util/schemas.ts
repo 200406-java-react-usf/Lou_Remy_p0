@@ -6,9 +6,15 @@ export interface CustomerSchema {
 }
 
 export interface TransactionSchema {
-    txid:number;
-    custid:number;
-    serial:number
-    cost:number;
-    type:string;
+    TransactionId:number;
+    Cost:number;
+    Type:string;
+    CustomerId:number;
+}
+
+export interface BikeSchema {
+    SerialNumber: number;
+    Brand: string;
+    Model: string;
+    Price: number
 }

@@ -56,8 +56,27 @@ export class CustomerRepo implements CrudRepo<Customer> {
             throw new InternalServerError();
         }finally{
             client&&client.release()
-        }
+        }}
         
+    async save(newCust:Customer): Promise<Customer>{
+
+        let client: PoolClient;
+
+        try {
+            client = await connectionPool.connect();
+
+            let sql = `
+                insert into "Customers" (id, firstname, lastname, email) 
+                values ($1, $2, $3, $4) returning id
+            `
+            return newCust
+        }catch (e) {
+            console.log(e);
+            throw new InternalServerError();
+        } finally {
+            client && client.release();
+        }
+    
         
 
         

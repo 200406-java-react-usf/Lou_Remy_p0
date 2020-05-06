@@ -4,11 +4,11 @@ export class Bike{
     serial: number;
     brand: string;
     model: string;
-   
-    constructor(id,brnd,mdl){
+    price: number
+    constructor(id,brnd,mdl,price){
         this.serial = id;
         this.brand = brnd;
         this.model = mdl;
-        
+        this.price =price
     }
 }

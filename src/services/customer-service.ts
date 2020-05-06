@@ -1,9 +1,11 @@
 import { Customer } from '../models/customer'
 import { CustomerRepo } from '../repos/customer-repo'
-//import { isValidId, isValidStrings, isValidObject } from '../util/validator'
+import  { isValidObject }  from '../util/validator'
 import {
-    ResourceNotFoundError
-
+    ResourceNotFoundError,
+    BadRequestError,
+    ResourcePersistenceError,
+    
 } from '../errors/errors'
 
 
@@ -34,6 +36,40 @@ export class CustomerService {
         catch(e){
             throw e
         }
+    }
+
+    async addCustomer(newCust: Customer): Promise<Customer>{
+
+        try{
+            if(!isValidObject(newCust, 'id')){
+                throw new BadRequestError('Invalid property values found in provided user.');
+            }
+        }catch(e){
+            e
+        }
+
+        let emailAvailable = await this.isEmailAvailable(newCust.email)
+
+        if (!emailAvailable) {
+            throw new  ResourcePersistenceError('The provided email is already taken.');
+        }
+
+        let persistedcustomers = await this.custRepo.save(newCust)
+        return persistedcustomers
+    }
+
+
+    private async isEmailAvailable(email: string): Promise<boolean> {
+        
+        try {
+            await this.getCustbyUniqueKey({'email': email});
+        } catch (e) {
+            console.log('email is available')
+            return true;
+        }
+
+        console.log('email is unavailable')
+        return false;
     }
 
 }

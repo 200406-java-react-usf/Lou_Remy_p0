@@ -12,7 +12,15 @@ import { TransactionService } from '../services/tx-service'
 const txRepo = new TransactionRepo();
 const txService = new TransactionService(txRepo)
 
+import { BikeRepo } from '../repos/bike-repo'
+import { BikeService } from '../services/bike-service'
+
+
+const bikeRepo = new BikeRepo();
+const bikeService = new BikeService(bikeRepo)
+
 export default {
     customerService,
-    txService
+    txService,
+    bikeService
 }

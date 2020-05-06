@@ -4,7 +4,7 @@ export class Transactions{
     type:string;
     custid:number;
     //serial:number
-    constructor(tid,id,cost,typ,s){
+    constructor(tid,id,cost,typ){
         this.txid = id
         this.cost = cost
         this.type = typ
