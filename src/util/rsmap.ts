@@ -6,7 +6,7 @@ import { Bike } from '../models/bikes';
 import { BikeSchema } from './schemas'
 
 
-
+//maps sql result to js object
 
 export function customer_rsmap(rs: CustomerSchema): Customer {
     if (!rs){

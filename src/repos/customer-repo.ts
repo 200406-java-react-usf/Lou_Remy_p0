@@ -15,6 +15,9 @@ import { PoolClient } from 'pg';
 import { connectionPool } from '../index';
 import { customer_rsmap } from '../util/rsmap'
 export class CustomerRepo implements CrudRepo<Customer> {
+    static getall() {
+        throw new Error("Method not implemented.");
+    }
 
     baseQuery = `
     select
@@ -26,7 +29,7 @@ export class CustomerRepo implements CrudRepo<Customer> {
     from "Customers" c
     `
    
-
+//returns all customers
     async getall(): Promise<Customer[]>{
         let client: PoolClient;
 
@@ -44,6 +47,8 @@ export class CustomerRepo implements CrudRepo<Customer> {
         
     }
     
+
+    //gets the things by typing in URL /key/value
     async getCustByUniqueKey(key: string, val: string): Promise<Customer> {
         let client: PoolClient;
         
@@ -58,7 +63,7 @@ export class CustomerRepo implements CrudRepo<Customer> {
         }finally{
             client&&client.release()
         }}
-        
+        //adds  a new Customer to db
     async save(newCust:Customer): Promise<Customer>{
 
         let client: PoolClient;
@@ -70,7 +75,8 @@ export class CustomerRepo implements CrudRepo<Customer> {
                 insert into "Customers" (id, firstname, lastname, email) 
                 values ($1, $2, $3, $4) returning id
             `
-            return newCust
+            let rs = await client.query(sql, [newCust.id, newCust.firstname, newCust.lastname, newCust.email]);
+            return newCust 
         }catch (e) {
             console.log(e);
             throw new InternalServerError();

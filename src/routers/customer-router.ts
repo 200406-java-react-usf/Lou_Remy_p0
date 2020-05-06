@@ -10,7 +10,7 @@ import { CustomerRepo } from '../repos/customer-repo'
 export const CustRouter = express.Router();
 
 const customerService = AppConfig.customerService
-
+//fetchs all custs from db
 CustRouter.get('', async( req, resp)=>{
     try{
         let reqURL = url.parse(req.url, true)
@@ -25,7 +25,7 @@ CustRouter.get('', async( req, resp)=>{
     }
 })
 
-
+//allows us to send post req to add a Customer
 CustRouter.post('', async( req, resp)=>{
     console.log(req.body)
 
@@ -37,6 +37,7 @@ CustRouter.post('', async( req, resp)=>{
     }
 })
 
+//makes it so I can use the URL as parameters
 CustRouter.get('/:x/:val', async (req,resp)=>{
 const id = req.params.x;
 const val = req.params.val;
