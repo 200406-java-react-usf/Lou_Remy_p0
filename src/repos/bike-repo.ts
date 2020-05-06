@@ -12,11 +12,11 @@ export class BikeRepo implements CrudRepo<Bike> {
 
     baseQuery =`
     select 
-    "SerialNumber" ,
-    "Brand",
-    "Model",
-    "Price" 
-    from "Bikes" 
+    b."SerialNumber",
+    b."Brand",
+    b."Model",
+    b."Price" 
+    from "Bikes" b
     `
     async getall(): Promise<Bike[]>{
         let client: PoolClient
@@ -37,7 +37,7 @@ export class BikeRepo implements CrudRepo<Bike> {
     
     try {
         client = await connectionPool.connect();
-        let sql = `${this.baseQuery} where c.${key} =$1`;
+        let sql = `${this.baseQuery} where b.${key} =$1`;
         let rs = await client.query(sql,[val]);
         return bike_rsmap(rs.rows[0])
     }catch(e){

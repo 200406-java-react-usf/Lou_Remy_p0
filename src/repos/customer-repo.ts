@@ -18,12 +18,12 @@ export class CustomerRepo implements CrudRepo<Customer> {
 
     baseQuery = `
     select
-        id,
-        firstname,
-        lastname,
-        email
+        c."id",
+        c."firstname",
+        c."lastname",
+        c."email"
 
-    from "Customers" 
+    from "Customers" c
     `
    
 
@@ -49,11 +49,12 @@ export class CustomerRepo implements CrudRepo<Customer> {
         
         try {
             client = await connectionPool.connect();
-            let sql = `${this.baseQuery} where c.${key} =$1`;
+            console.log(key, val)
+            let sql = `${this.baseQuery} where c.${key} = $1 `;
             let rs = await client.query(sql,[val]);
             return customer_rsmap(rs.rows[0])
         }catch(e){
-            throw new InternalServerError();
+            throw new InternalServerError(e);
         }finally{
             client&&client.release()
         }}
